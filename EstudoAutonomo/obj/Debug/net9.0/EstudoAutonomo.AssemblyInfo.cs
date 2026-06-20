@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EstudoAutonomo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7d130df2b9d2a1299ba55d0713a26c894025a9dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("EstudoAutonomo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EstudoAutonomo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

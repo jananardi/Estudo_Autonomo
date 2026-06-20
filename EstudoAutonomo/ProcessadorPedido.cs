@@ -3,43 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EstudoAutonomo.Interfaces;
+using EstudoAutonomo.Services;
 
 namespace EstudoAutonomo
 {
+    // Classe responsável por coordenar o processamento do pedido.
+    // Utiliza abstrações (interfaces) para reduzir o acoplamento,
+    // seguindo o princípio Dependency Inversion (D) do SOLID.
     public class ProcessadorPedido
     {
+        private readonly IPedidoRepository _repository;
+        private readonly INotificacaoService _notificacao;
+        private readonly PedidoService _pedidoService;
 
-        // Esta classe possui várias responsabilidades:
-        // - Valida o pedido
-        // - Aplica regras de negócio
-        // - Salva no banco de dados
-        // - Envia e-mail
-        // Isso dificulta a manutenção e viola o princípio
-        // Single Responsibility (SRP) do SOLID.
-
-        public void Processar(string cliente, double valorTotal, string emailCliente)
+        public ProcessadorPedido(
+            IPedidoRepository repository,
+            INotificacaoService notificacao,
+            PedidoService pedidoService)
         {
-            // Validação do pedido
-            if (valorTotal <= 0)
-            {
-                throw new ArgumentException("Valor do pedido inválido.");
-            }
-
-            // Regra de negócio (desconto VIP)
-            if (valorTotal > 1000)
-            {
-                valorTotal -= 100;
-            }
-
-            // Simulação de persistência no banco
-            Console.WriteLine($"Salvando pedido de {cliente} no valor de R${valorTotal} no Banco de Dados...");
-
-            // Simulação de envio de e-mail
-            Console.WriteLine($"Enviando e-mail para {emailCliente}: Seu pedido foi processado com sucesso!");
+            _repository = repository;
+            _notificacao = notificacao;
+            _pedidoService = pedidoService;
         }
 
-        //Primeiro Commit: implementação original.
-        //A classe ProcessadorPedido concentra validação, regras de negócio, persistência e notificações em um único local,
-        //dificultando manutenção e evolução do sistema, além de violar princípios do SOLID.
+        public void Processar(
+            string cliente,
+            double valorTotal,
+            string contato)
+        {
+            valorTotal =
+                _pedidoService.ProcessarValor(valorTotal);
+
+            _repository.Salvar(cliente, valorTotal);
+
+            _notificacao.Enviar(contato);
+        }
     }
 }
